@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { provideRouter } from '@angular/router'
+import { disableRipples } from '../configs/global-ripples.config'
 import { routes } from './app.routes'
 
 export const appConfig: ApplicationConfig = {
@@ -8,5 +9,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
+    disableRipples(),
   ],
 }
