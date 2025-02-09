@@ -1,3 +1,11 @@
-input {
-  display: block;
+form {
+  border-radius: 0.5rem;
+  padding: 1rem 1rem;
+  margin: 5rem auto;
+  width: 32rem;
+  box-shadow: var(--mat-sys-level3)
+}
+
+button {
+  width: 100%;
 }
