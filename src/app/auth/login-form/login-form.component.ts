@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http'
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnDestroy } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
+import { Subject, takeUntil } from 'rxjs'
+import { AuthService } from '../auth.service'
 
 @Component({
   selector: 'app-login-form',
@@ -11,18 +12,21 @@ import { MatInputModule } from '@angular/material/input'
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnDestroy {
   private formBuilder = inject(FormBuilder)
-  private http = inject(HttpClient)
+  private authService = inject(AuthService)
+  private destroy$ = new Subject<void>()
 
   loginForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
   })
 
   onSubmit() {
-    if (this.loginForm.status === 'VALID') {
-      this.http.post('', this.loginForm.value).subscribe({
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).pipe(
+        takeUntil(this.destroy$),
+      ).subscribe({
         next: response => {
           console.log('Login successful:', response)
           this.loginForm.reset()
@@ -32,5 +36,10 @@ export class LoginFormComponent {
         },
       })
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }
