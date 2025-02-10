@@ -7,8 +7,8 @@ import { inject, Injectable } from '@angular/core'
 export class AuthService {
   private http = inject(HttpClient)
 
-  private baseUrl = 'https://recipeplanner-api-dagqbja5cyfkb0cr.westeurope-01.azurewebsites.net/'
-  private url = `${this.baseUrl}api/Auth/login`
+  private baseUrl = ''
+  private url = `${this.baseUrl}/api/Auth/login`
 
   login(credentials: Partial<{ username: string | null, password: string | null }>) {
     return this.http.post(this.url, credentials)
