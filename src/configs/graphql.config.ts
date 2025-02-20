@@ -5,11 +5,11 @@ import { environment } from '../environments/environment'
 
 export const apolloConfig = () => {
   const httpLink = inject(HttpLink)
-  const { apiUrl } = environment
+  const { baseUrl } = environment
 
   return {
     link: httpLink.create({
-      uri: apiUrl,
+      uri: baseUrl,
     }),
     cache: new InMemoryCache(),
   }
